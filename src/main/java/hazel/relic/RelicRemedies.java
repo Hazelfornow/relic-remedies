@@ -1,5 +1,6 @@
 package hazel.relic;
 
+import hazel.relic.registry.RelicsItems;
 import net.fabricmc.api.ModInitializer;
 
 import org.slf4j.Logger;
@@ -12,6 +13,6 @@ public class RelicRemedies implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-
+		RelicsItems.innit();
 	}
 }
