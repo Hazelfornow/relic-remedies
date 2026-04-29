@@ -16,6 +16,7 @@ import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 
+//This is the swap feature
 
 public class AstralScrap extends Item {
     public AstralScrap(Settings settings) {
