@@ -1,7 +1,6 @@
 package hazel.relic;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.item.Item;
@@ -9,21 +8,17 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.TeleportTarget;
-import net.minecraft.world.World;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 
 //This is the swap feature
 
 
-public class AstralScrap extends Item {
-    public AstralScrap(Settings settings) {
+public class astral_scrap extends Item {
+    public astral_scrap(Settings settings) {
         super(settings);
     }
 
@@ -43,13 +38,14 @@ public class AstralScrap extends Item {
                 Vec3d playerPos = user.getPos();
                 Vec3d targetPos = target.getPos();
 
-                user.teleport(targetPos.x, targetPos.y, targetPos.z);
-                target.teleport(playerPos.x, playerPos.y, playerPos.z);
+                user.refreshPositionAfterTeleport(targetPos);
+                target.refreshPositionAfterTeleport(playerPos);
             }
+
+            return TypedActionResult.success(user.getStackInHand(hand));
         }
 
-        return TypedActionResult.success(user.getStackInHand(hand));
-    }
 
+        return null;
     }
 }
