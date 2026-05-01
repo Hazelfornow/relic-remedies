@@ -46,6 +46,7 @@ public class AstralScrap extends Item {
                 Vec3d playerPos = user.getPos();
                 Vec3d targetPos = target.getPos();
 
+                user.teleport(targetPos.x + 0,targetPos.y + 5,targetPos.z + 0,false);
                 user.refreshPositionAfterTeleport(targetPos);
                 target.refreshPositionAfterTeleport(playerPos);
             }
