@@ -5,25 +5,33 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 
 //This is the swap feature
 
 
-public class astral_scrap extends Item {
-    public astral_scrap(Settings settings) {
+public class AstralScrap extends Item {
+    public AstralScrap(Settings settings) {
         super(settings);
     }
 
+    public static final Item astral_scrap = Registry.register(
+            Registries.ITEM,
+            Identifier.of("relic-remedies", "astral_scrap"),
+            new AstralScrap(new Item.Settings().maxCount(1))
+    );
+
     public TypedActionResult<ItemStack> use(ServerWorld world, PlayerEntity user, Hand hand) {
-        MinecraftClient client = MinecraftClient.getInstance();
+
         if (!world.isClient) {
             BlockHitResult blockHit = (BlockHitResult) user.raycast(5.0, 0.0f, false);
 
@@ -42,10 +50,10 @@ public class astral_scrap extends Item {
                 target.refreshPositionAfterTeleport(playerPos);
             }
 
-            return TypedActionResult.success(user.getStackInHand(hand));
+
         }
 
 
-        return null;
+        return super.use(world,user,hand);
     }
 }
