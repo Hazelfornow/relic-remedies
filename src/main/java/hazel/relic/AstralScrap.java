@@ -8,6 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.stat.Stats;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.TypedActionResult;
@@ -15,6 +16,9 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
+import net.minecraft.world.World;
+
+import java.util.Set;
 
 //This is the swap feature
 
@@ -24,17 +28,16 @@ public class AstralScrap extends Item {
         super(settings);
     }
 
-    public static final Item astral_scrap = Registry.register(
+    public static final Item ASTRAL_SCRAP = Registry.register(
             Registries.ITEM,
             Identifier.of("relic-remedies", "astral_scrap"),
             new AstralScrap(new Item.Settings().maxCount(1))
     );
 
-    public TypedActionResult<ItemStack> use(ServerWorld world, PlayerEntity user, Hand hand) {
-
+    @Override
+    public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
+        ItemStack itemStack = user.getStackInHand(hand);
         if (!world.isClient) {
-            BlockHitResult blockHit = (BlockHitResult) user.raycast(5.0, 0.0f, false);
-
             Vec3d start = user.getCameraPosVec(1.0f);
             Vec3d end = start.add(user.getRotationVector().multiply(5.0));
             Box box = user.getBoundingBox().stretch(user.getRotationVector().multiply(5.0)).expand(1.0);
@@ -46,15 +49,13 @@ public class AstralScrap extends Item {
                 Vec3d playerPos = user.getPos();
                 Vec3d targetPos = target.getPos();
 
-                user.teleport(targetPos.x + 0,targetPos.y + 5,targetPos.z + 0,false);
-                user.refreshPositionAfterTeleport(targetPos);
-                target.refreshPositionAfterTeleport(playerPos);
+                user.teleport((ServerWorld) world, targetPos.x, targetPos.y, targetPos.z, Set.of(), user.getYaw(), user.getPitch());
+
+                target.teleport((ServerWorld) world, playerPos.x, playerPos.y, playerPos.z, Set.of(), target.getYaw(), target.getPitch());
             }
-
-
         }
-
-
-        return super.use(world,user,hand);
+        user.incrementStat(Stats.USED.getOrCreateStat(this));
+        itemStack.decrementUnlessCreative(1, user);
+        return TypedActionResult.success(itemStack, world.isClient());
     }
 }

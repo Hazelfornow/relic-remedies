@@ -9,7 +9,7 @@ import net.minecraft.util.Identifier;
 
 public class RelicsItems {
     public static Registrar<Item>itemRegistrar = new Registrar<Item>(RelicRemedies.MOD_ID, Registries.ITEM);
-    public static final Item astral_scrap = itemRegistrar.add(Identifier.of(RelicRemedies.MOD_ID, "astral_scrap"), new AstralScrap(new Item.Settings()));
+    public static final Item ASTRAL_SCRAP = itemRegistrar.add(Identifier.of(RelicRemedies.MOD_ID, "astral_scrap"), new AstralScrap(new Item.Settings()));
     public static void innit() {
         itemRegistrar.setRegistries(itemRegistrar.entries, itemRegistrar.registry_consumer);
     }
