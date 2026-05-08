@@ -28,11 +28,6 @@ public class AstralScrap extends Item {
         super(settings);
     }
 
-    public static final Item ASTRAL_SCRAP = Registry.register(
-            Registries.ITEM,
-            Identifier.of("relic-remedies", "astral_scrap"),
-            new AstralScrap(new Item.Settings().maxCount(1))
-    );
 
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
