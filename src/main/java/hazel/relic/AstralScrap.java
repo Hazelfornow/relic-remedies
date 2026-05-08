@@ -39,8 +39,9 @@ public class AstralScrap extends Item {
         ItemStack itemStack = user.getStackInHand(hand);
         if (!world.isClient) {
             Vec3d start = user.getCameraPosVec(1.0f);
-            Vec3d end = start.add(user.getRotationVector().multiply(5.0));
-            Box box = user.getBoundingBox().stretch(user.getRotationVector().multiply(5.0)).expand(1.0);
+            int range = 100;
+            Vec3d end = start.add(user.getRotationVector().multiply(range));
+            Box box = user.getBoundingBox().stretch(user.getRotationVector().multiply(range)).expand(1.0);
 
             EntityHitResult entityHit = ProjectileUtil.getEntityCollision(world, user, start, end, box, e -> true);
 
